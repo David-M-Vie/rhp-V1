@@ -1,0 +1,145 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: rgb(105, 98, 98); 
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+ /* overflow: hidden; /* Hide scrollbars */
+}
+
+header {
+  position:fixed;  
+  width: 100%;
+  padding: 10px 0px;
+  border-bottom: 1px solid rgb(6, 155, 241);
+  background-color: rgb(6, 155, 241);
+
+}
+
+header > div {
+
+
+}
+
+header > div > h1 {
+  font-size: 1rem;
+  color: white;
+  text-align: center;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+section > div { 
+  text-align: center;
+  margin-top: 50px;
+}
+
+input::placeholder {
+  color: rgb(205, 205, 205);
+  font-size: .7rem;
+}
+
+
+
+div.displace {
+  margin-top: -150px;
+}
+
+section.calculate {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+
+label {
+  font-size: 1.4rem;
+  font-weight: 100;
+}
+
+input {
+  width: 60%;
+  height: 20px;
+  margin-top: 15px;
+  font-size: 1.2rem;
+  padding: 10px;
+  outline: 0;
+}
+
+input:focus {
+  outline: 1px solid, rgb(6, 155, 241);
+  transition: outline .1s ease-in-out, box-shadow .2s ease-in-out;
+  box-shadow: 0px 0px 1px 2px rgb(6, 155, 241);
+  border-radius: 3px;
+  border: 1px solid gray
+}
+
+select {
+  height: 25px;
+  width: 40%;
+  text-align: center;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+button {
+  background-color: rgb(27, 180, 0);
+  color: white;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+
+}
+
+button.calc {
+  background-color: rgb(250, 97, 97);
+}
+
+
+button:active {
+  box-shadow: inset 0px 0px 4px 2px rgba(49, 49, 49, .5);
+}
+
+#output-1 {
+  position: fixed;
+  top: 0;
+  width: 90%;
+  margin-left: 5%;
+  color: white;
+  background-color: rgb(255, 144, 144);
+
+}
+
+#output-1 > ul {
+  border: 2px solid red;
+  margin: 0;
+  padding: 0;
+  list-style-type: disc;
+}
+
+#output-1 > ul > li {
+  padding: 4px 0;
+  margin: 0;
+  font-size: .8rem;
+
+}
+
+.close-error-box {
+  position: absolute;
+  right: 10px;
+  top: 3px;
+  cursor: pointer;
+}
+
+#apStart{
+  text-align: center;
+  width: 80px;
+}

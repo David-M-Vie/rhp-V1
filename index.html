@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RHP-v1</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+      <div>
+        <h1> RHP Calculator</h1>
+      </div>      
+    </header>
+    
+    <section class="section start-end-date">
+      <div>
+        <div>
+          <label for="failDate">Date of Failure: </label>
+        </div>
+        <div>
+          <input type="text" id="failDate" placeholder="eg. 23 September 2023,  23/09/2023, 23.09.2023"/>
+        </div>
+      </div>
+      <div>
+        <div>
+          <label for="liftedDate">Date Sanction Lifted: </label>
+        </div>
+        <div>
+          <input type="text" id="liftedDate" placeholder="eg. 23 September 2023,  23/09/2023, 23.09.2023"/>
+        </div>      
+      </div>
+      <div>
+        <div>
+          <label for="additionalDays">Additional Days</label>
+        </div>
+        <div>
+          <select id="additionalDays">
+            <option value="0">Select</option>
+            <option value="7">7 Days</option>
+            <option value="14">14 Days</option>
+          </select>
+        </div>
+
+      </div>
+      <div id="output-1">
+
+      </div>
+      <div>
+        <button class="calc" id="btn-1">Calculate</button>
+      </div>      
+    </section>
+    <section class="section decision-date">
+      <div>
+        <div>
+          <label for="decisionDate">Decision Date: </label>
+        </div>
+        <div>
+          <input type="input" id="decisionDate"/>
+        </div>
+      </div>
+      <div>
+        <div>
+          <label for="apStart">AP Start Date: </label>
+        </div>
+        <div>
+          <input id="apStart" min="1" max="31" type="number"/>
+        </div> 
+      </div>  
+      <div id="err-msg-2">
+
+      </div>
+
+      <div>
+        <button class="calc" id="btn-2">Calculate</button>
+      </div> 
+    </section>
+    <section class="section result">
+      <div class="result-box">
+        <!-- injected result -->
+      </div>
+
+      <!-- <div>
+        <button id="startAgain">Start Again</button>
+      </div> -->
+
+    </section>
+  <script src="/app.js"></script>
+</body>
+</html>
