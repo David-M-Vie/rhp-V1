@@ -114,15 +114,20 @@ button:active {
   width: 90%;
   margin-left: 5%;
   color: white;
-  background-color: rgb(255, 144, 144);
+
 
 }
 
 #output-1 > ul {
-  border: 2px solid red;
+
   margin: 0;
   padding: 0;
   list-style-type: disc;
+}
+
+.red-box {
+  background-color: rgb(255, 144, 144);
+  border: 2px solid red;
 }
 
 #output-1 > ul > li {
@@ -139,7 +144,12 @@ button:active {
   cursor: pointer;
 }
 
-#apStart{
+#apEnd{
   text-align: center;
   width: 80px;
+}
+
+.blue-box {
+  background-color: rgb(6, 155, 241);
+  padding: 5px 0;
 }
