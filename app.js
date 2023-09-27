@@ -18,7 +18,7 @@ const state = {
   endDate: {dte: null, isVerified: false},
   decisionDate: {dte: null, isVerified: false},
   additionalDays: {days: null, isVerified: false},
-  apEnd: {day: null, isVerified: false},
+  apEnd: {dte: null, isVerified: false},
   sanctionLength: null
 }
 
@@ -145,39 +145,50 @@ document.querySelector('#btn-1').addEventListener("click", () => {
 //   state.decisionDate.isVerified = false;
 // })
 
-
-// AP End Date - update state when input is updated.
-document.querySelector('#apEnd').addEventListener('click', (e) => {
-  state.apEnd.day = Number(e.target.value);
+// any time the apEnd input is altered and moved off fire the event to save it's value in state,  ( which will then be validated when the users presses "calculate" )
+document.querySelector('#apEnd').addEventListener('blur', (e) => {
+  state.apEnd.dte = e.target.value;
   state.apEnd.isVerified = false;
 })
 
-document.querySelector('#apEnd').addEventListener('keyup', (e) => {
-  state.apEnd.day = Number(e.target.value);
-  state.apEnd.isVerified = false;
-})
-
-// When the calculate button-2 is clicked,  validate the ap start date.
 document.querySelector('#btn-2').addEventListener("click", () => {
-
-  const apEnd = document.querySelector('#apEnd').value;
+  // set an errors array;
   const errorMsg = [];
 
-  if(state.apEnd.isVerified) {
-    scrollDown();
-  }else {
-  
-    if(!apEnd) {
-      errorMsg.push('Assessment Period start date can\'t be blank')
-    }else if(apEnd > 31 || apEnd < 1){
-      errorMsg.push('The AP end date can\'t be less than 1 or greater than 31');
+  if(apEnd.isVerified){
+    // do something 
+  }else { // attempt to verify it. 
+    // use the input to attempt to create a valid JS Date object.
+    const apEndDate = createDate(state.apEnd.dte)
+    if(apEndDate === "Invalid Date") {
+      errorMsg.push("The assessment period date is not valid, please try again.");
+      state.apEnd.isVerified = false;
+    }else {
+      // Set the JS Date Object on state.
+      state.apEnd.dte = apEndDate;
+      state.apEnd.isVerified = true;
     }
-    // WORKING HERE !!!!!!!!!!!!!!!!!!!!!!!
-    // Perhaps AP end should be a DATE OBJ, consider changing back to a date!
-  } 
+  }
 
-});
+  console.log(state)
 
+  if(errorMsg.length > 0) {
+    const output = document.querySelector('#output-2');
+    let html = `<ul class="red-box">`;
+    html += `<span class="close-error-box">x</span>`
+    for(let i = 0; i < errorMsg.length; i++) {
+      html += `<li>${errorMsg[i]}</li>`
+    }
+    html += "</ul>"
+    output.innerHTML = html;
+    document.querySelector('.close-error-box').addEventListener("click", () => {
+      output.innerHTML = ""
+    })
+  }else {
+    document.querySelector('#output-2').innerHTML = ""
+    scrollDown()
+  }
+})
 
 
 
