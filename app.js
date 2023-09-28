@@ -187,6 +187,12 @@ document.querySelector('#btn-2').addEventListener("click", () => {
   }else {
     document.querySelector('#output-2').innerHTML = ""
     scrollDown()
+    setTimeout(() => {
+      document.querySelector('results-box').innerHTML = `
+      <div class=
+      
+      `
+    },1000)
   }
 })
 
