@@ -185,14 +185,24 @@ document.querySelector('#btn-2').addEventListener("click", () => {
       output.innerHTML = ""
     })
   }else {
-    document.querySelector('#output-2').innerHTML = ""
+    document.querySelector('#output-1').innerHTML = "";
+    document.querySelector('#output-2').innerHTML = "";
     scrollDown()
     setTimeout(() => {
-      document.querySelector('results-box').innerHTML = `
-      <div class=
-      
+      document.querySelector('.result-box').innerHTML = `
+        <div class="result-text">
+            <p> This sanction applies for a total of <strong>${state.sanctionLength} days</strong> from ${new Date(state.startDate.dte).toLocaleDateString()} to ${new Date(state.endDate.dte).toLocaleDateString()} and includes an additional fixed ${state.additionalDays.days} days.
+
+            They can apply for a recoverable hardship payment on the following dates: 
+            <ul>
+                <li> date 1 </li>
+                <li> date 2 </li>
+                <li> date 3 </li>
+            </ul>
+
+        </div>
       `
-    },1000)
+    },300)
   }
 })
 
