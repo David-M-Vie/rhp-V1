@@ -14,13 +14,16 @@ const scrollDown = () => {
        State
 ================== */
 const state = {
-  startDate: {dte: null,  isVerified: false},
-  endDate: {dte: null, isVerified: false},
+  dateOfFail: {dte: null,  isVerified: false},
+  dateComplied: {dte: null, isVerified: false},
   decisionDate: {dte: null, isVerified: false},
   additionalDays: {days: null, isVerified: false},
   apEnd: {dte: null, isVerified: false},
   sanctionLength: null
 }
+
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
 
 
 /* =================
@@ -40,18 +43,19 @@ const createDate = (input) => {
   EVENT LISTENERS 
 ================== */
 
-// Set the values of the startDate, endDate, and additionalDays inputs 
+// Set the values of the dateOfFail, dateComplied, and additionalDays inputs 
 //  any time an input is adjusted it's no longer verified, and needs to run through validation again when the calculate button is pressed 
 //
 
+
 document.querySelector('#failDate').addEventListener("keyup", (e) => {
-  state.startDate.dte = e.target.value;
-  state.startDate.isVerified = false;
+  state.dateOfFail.dte = e.target.value;
+  state.dateOfFail.isVerified = false;
 })
 
 document.querySelector('#liftedDate').addEventListener('keyup', (e) => {
-  state.endDate.dte = e.target.value;
-  state.endDate.isVerified = false
+  state.dateComplied.dte = e.target.value;
+  state.dateComplied.isVerified = false
 })
 
 document.querySelector('#additionalDays').addEventListener('blur', (e) => {
@@ -72,28 +76,28 @@ document.querySelector('#btn-1').addEventListener("click", () => {
   // set an errors array
   const errorMsg = [];
 
-  if(state.startDate.isVerified && state.endDate.isVerified && state.additionalDays.isVerified) {
+  if(state.dateOfFail.isVerified && state.dateComplied.isVerified && state.additionalDays.isVerified) {
     scrollDown();
   }else {
     // use the input to attempt to create a valid JS Date obj
-    const startDate = createDate(state.startDate.dte);
-    if(startDate === "Invalid Date") {
+    const dateOfFail = createDate(state.dateOfFail.dte);
+    if(dateOfFail === "Invalid Date") {
       errorMsg.push("Date of failure is not a valid date");
-      state.startDate.isVerified = false;
+      state.dateOfFail.isVerified = false;
     }else {
       // set the JS Date object on state
-      state.startDate.dte = startDate;
-      state.startDate.isVerified = true;
+      state.dateOfFail.dte = dateOfFail;
+      state.dateOfFail.isVerified = true;
     }
 
-    const endDate = createDate(state.endDate.dte);
-    if(endDate === "Invalid Date") {
+    const dateComplied = createDate(state.dateComplied.dte);
+    if(dateComplied === "Invalid Date") {
       errorMsg.push("Date sanction lifted is not a valid date");
-      state.endDate.isVerified = false;
+      state.dateComplied.isVerified = false;
 
     }else {
-      state.endDate.dte = endDate;
-      state.endDate.isVerified = true;
+      state.dateComplied.dte = dateComplied;
+      state.dateComplied.isVerified = true;
     }
 
     if(state.additionalDays.days === 0 || state.additionalDays.days === null) {
@@ -122,7 +126,7 @@ document.querySelector('#btn-1').addEventListener("click", () => {
       document.querySelector('#output-1').innerHTML = ""
 
       // Calculate the difference between start and end days and add on the additional days
-      const totalDays = getTotalDays(state.startDate.dte, state.endDate.dte, state.additionalDays.days)
+      const totalDays = getTotalDays(state.dateOfFail.dte, state.dateComplied.dte, state.additionalDays.days)
       state.sanctionLength = totalDays;
       const output = document.querySelector('#output-1')
       output.innerHTML = `
@@ -140,10 +144,10 @@ document.querySelector('#btn-1').addEventListener("click", () => {
 /* ===================================================
  SECTION 2 CALCULATE DECISION DATE, AND AP END DATE
 ====================================================== */
-// document.querySelector('#decisionDate').addEventListener("keyup", (e) => {
-//   state.decisionDate.dte = e.target.value;
-//   state.decisionDate.isVerified = false;
-// })
+document.querySelector('#decisionDate').addEventListener("blur", (e) => {
+  state.decisionDate.dte = e.target.value;
+  state.decisionDate.isVerified = false;
+})
 
 // any time the apEnd input is altered and moved off fire the event to save it's value in state,  ( which will then be validated when the users presses "calculate" )
 document.querySelector('#apEnd').addEventListener('blur', (e) => {
@@ -151,11 +155,16 @@ document.querySelector('#apEnd').addEventListener('blur', (e) => {
   state.apEnd.isVerified = false;
 })
 
+// When the page 2 red calculate button is clicked. 
 document.querySelector('#btn-2').addEventListener("click", () => {
   // set an errors array;
   const errorMsg = [];
 
-  if(apEnd.isVerified){
+  if(!state.dateOfFail.isVerified || !state.dateComplied.isVerified) {
+    errorMsg.push('Scroll back up and complete Section 1!')
+  }
+
+  if(apEnd.isVerified && decisionDate.isVerified && dateOfFail.isVerified && dateComplied.isVerified){
     // do something 
   }else { // attempt to verify it. 
     // use the input to attempt to create a valid JS Date object.
@@ -168,9 +177,17 @@ document.querySelector('#btn-2').addEventListener("click", () => {
       state.apEnd.dte = apEndDate;
       state.apEnd.isVerified = true;
     }
-  }
 
-  console.log(state)
+    const decisionDate = createDate(state.decisionDate.dte);
+    if(decisionDate === "Invalid Date") {
+      errorMsg.push("The Decision Date is not valid, please try again.");
+      state.decisionDate.isVerified = false;
+    }else {
+      // Set the decision date on state
+      state.decisionDate.dte = decisionDate;
+      state.decisionDate.isVerified = true
+    }
+  }
 
   if(errorMsg.length > 0) {
     const output = document.querySelector('#output-2');
@@ -188,10 +205,44 @@ document.querySelector('#btn-2').addEventListener("click", () => {
     document.querySelector('#output-1').innerHTML = "";
     document.querySelector('#output-2').innerHTML = "";
     scrollDown()
+    // Calculate when sanction applies from, runs to and RHP dates
+
+    let endDate = state.apEnd.dte;
+  
+    let day = endDate.getDate();
+    let monthNumber = endDate.getMonth();
+    let month = months[monthNumber]
+    let year = endDate.getFullYear();
+    
+    // console.log('day', day);
+    // console.log('monthNumber', monthNumber);
+    // console.log('month', month);
+    // console.log('Year', year,  'typeof year', typeof year)
+
+    let apStartDate;
+
+    switch(month) {
+      case 'January':
+        let prevMonth = monthNumber === 0 ? 12 : monthNumber - 1;
+        // it's 12 above because when creating a new date is 1-12 for months,  DON'T CONFUSE THIS WITH THE ARRAY INDEXING MONTHS FROM 0 - 11 !!
+        if(day > 0 && day < 31) {
+          apStartDate = new Date(`${(year - 1)}-${prevMonth}-${(day + 1)}`)
+        }
+    }
+
+    console.log('apStartDate', apStartDate)
+
+    
+
+
+
+
     setTimeout(() => {
       document.querySelector('.result-box').innerHTML = `
         <div class="result-text">
-            <p> This sanction applies for a total of <strong>${state.sanctionLength} days</strong> from ${new Date(state.startDate.dte).toLocaleDateString()} to ${new Date(state.endDate.dte).toLocaleDateString()} and includes an additional fixed ${state.additionalDays.days} days.
+            <p> This sanction applies for a total of <strong>${state.sanctionLength} days</strong> 
+            
+
 
             They can apply for a recoverable hardship payment on the following dates: 
             <ul>
@@ -199,13 +250,16 @@ document.querySelector('#btn-2').addEventListener("click", () => {
                 <li> date 2 </li>
                 <li> date 3 </li>
             </ul>
-
         </div>
       `
+      console.log(state)
     },300)
   }
 })
 
+/*
+    from ${new Date(apStartDateOfDecision).toLocaleDateString()} for ${state.sanctionLength} days  (this includes the additional fixed ${state.additionalDays.days} days).</p>
+*/
 
 
  
